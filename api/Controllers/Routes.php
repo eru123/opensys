@@ -170,6 +170,38 @@ class Routes
             $logs->any('/(.*)?', [self::class , 'fallback']);
         });
 
+        // Projects (auth required; admin for create/update/delete)
+        $api->group('/projects', function (Router $projects) use ($auth) {
+            $projects->use($auth);
+            $projects->get('', [ProjectController::class, 'index']);
+            $projects->post('', [ProjectController::class, 'store']);
+            $projects->get('/{id}', [ProjectController::class, 'show']);
+            $projects->put('/{id}', [ProjectController::class, 'update']);
+            $projects->delete('/{id}', [ProjectController::class, 'destroy']);
+
+            // Members
+            $projects->get('/{id}/members', [ProjectController::class, 'listMembers']);
+            $projects->post('/{id}/members', [ProjectController::class, 'addMember']);
+            $projects->put('/{id}/members/{uid}', [ProjectController::class, 'updateMember']);
+            $projects->delete('/{id}/members/{uid}', [ProjectController::class, 'removeMember']);
+
+            // Tasks
+            $projects->get('/{id}/tasks', [ProjectTaskController::class, 'index']);
+            $projects->post('/{id}/tasks', [ProjectTaskController::class, 'store']);
+            $projects->put('/{id}/tasks/{tid}', [ProjectTaskController::class, 'update']);
+            $projects->delete('/{id}/tasks/{tid}', [ProjectTaskController::class, 'destroy']);
+
+            // Milestones
+            $projects->get('/{id}/milestones', [ProjectMilestoneController::class, 'index']);
+            $projects->post('/{id}/milestones', [ProjectMilestoneController::class, 'store']);
+            $projects->put('/{id}/milestones/{mid}', [ProjectMilestoneController::class, 'update']);
+            $projects->delete('/{id}/milestones/{mid}', [ProjectMilestoneController::class, 'destroy']);
+            $projects->post('/{id}/milestones/{mid}/tasks/{tid}', [ProjectMilestoneController::class, 'assignTask']);
+            $projects->delete('/{id}/milestones/{mid}/tasks/{tid}', [ProjectMilestoneController::class, 'removeTask']);
+
+            $projects->any('/(.*)?', [self::class, 'fallback']);
+        });
+
         // Fall back route for api routes
         $api->any('/(.*)?', [static::class , 'fallback']);
     }
