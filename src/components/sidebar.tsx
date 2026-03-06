@@ -18,6 +18,7 @@ import {
   X,
   AlertTriangle,
   ScrollText,
+  FolderKanban,
 } from "lucide-react";
 import { brandingConfig } from "@/utils/branding";
 import { useAuth } from "@/lib/auth";
@@ -72,9 +73,18 @@ export function Sidebar({ isOpen, onClose }: SidebarProps): JSX.Element {
       { name: "Error Logs", href: "/error-logs", icon: AlertTriangle },
     ],
   };
+  const projectsGroup: NavGroup = {
+    name: "Projects",
+    icon: FolderKanban,
+    items: [
+      { name: "All Projects", href: "/projects", icon: FolderKanban },
+    ],
+  };
+
   const navigation: NavigationItem[] = [
     { name: "Overview", href: "/", icon: LayoutDashboard },
     { name: "Profile", href: "/profile", icon: User },
+    projectsGroup,
     ...(user?.role === "admin"
       ? [
         logsGroup,

@@ -54,6 +54,8 @@ const CustomersMarketingEmails = lazy(
 const CustomersEmailTracker = lazy(
   () => import("./pages/customers-email-tracker"),
 );
+const Projects = lazy(() => import("./pages/projects"));
+const ProjectDetail = lazy(() => import("./pages/project-detail"));
 
 function App() {
   return (
@@ -214,6 +216,22 @@ function App() {
             element={
               <Suspense fallback={<div className="p-6">Loading...</div>}>
                 <CustomersEmailTracker />
+              </Suspense>
+            }
+          />
+          <Route
+            path="projects"
+            element={
+              <Suspense fallback={<div className="p-6">Loading...</div>}>
+                <Projects />
+              </Suspense>
+            }
+          />
+          <Route
+            path="projects/:id"
+            element={
+              <Suspense fallback={<div className="p-6">Loading...</div>}>
+                <ProjectDetail />
               </Suspense>
             }
           />
