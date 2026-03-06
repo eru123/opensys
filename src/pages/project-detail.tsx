@@ -664,7 +664,7 @@ export default function ProjectDetailPage() {
       );
       setMilestones(res.data.data || []);
     } catch {
-      // ignore
+      toast.error("Failed to load milestones");
     }
   }, [projectId]);
 
