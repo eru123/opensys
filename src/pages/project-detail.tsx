@@ -653,7 +653,7 @@ export default function ProjectDetailPage() {
       const res = await axios.get(`/api/projects/${projectId}/tasks?limit=200`);
       setTasks(res.data.data || []);
     } catch {
-      // ignore
+      toast.error("Failed to load tasks");
     }
   }, [projectId]);
 
